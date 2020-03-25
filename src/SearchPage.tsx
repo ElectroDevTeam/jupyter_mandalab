@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchResult from "./SearchResult";
 import axios from "axios";
 import { IDocumentManager } from "@jupyterlab/docmanager";
@@ -11,12 +11,12 @@ interface SearchPageProps {
 const SearchPage: React.SFC<SearchPageProps> = ({ docManager }) => {
   const [oldQuery, setOldQuery] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchDir, setSearchDir] = useState("/");
+  const [searchTeam, setSearchTeam] = useState("/");
+  const [searchOs, setSearchOs] = useState("All");
   const [hasSearched, setHasSearched] = useState(false);
   const [searchResult, setSearchResult] = useState({
-    totalResults: 0,
-    totalFiles: 0,
-    results: []
+    totalMachines: 0,
+    machines: []
   });
 
   const openFunction = (filePath: string) => () => {
@@ -31,11 +31,9 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager }) => {
   };
 
   const search = () => {
-    if (searchQuery !== "") {
-      //   Do search stuff
-      setOldQuery(searchQuery);
-      setHasSearched(true);
-    }
+    //   Do search stuff
+    setOldQuery(searchQuery);
+    setHasSearched(true);
   };
 
   return (
@@ -46,44 +44,55 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager }) => {
           onChange={e => {
             setSearchQuery(e.target.value);
           }}
-          placeholder="Search anything"
+          placeholder="Mandalab machine name"
           onKeyDown={e => {
             if (e.key === "Enter") {
               search();
             }
           }}
         />
-        <div className="jupyter-mandalab-label">files to include</div>
+        <div className="jupyter-mandalab-label">Owner</div>
         <input
           className="jupyter-mandalab-search-input"
           onChange={e => {
-            setSearchDir(e.target.value);
+            setSearchTeam(e.target.value);
           }}
-          placeholder="/"
+          placeholder="Team or owner name"
           onKeyDown={e => {
             if (e.key === "Enter") {
               search();
             }
           }}
         />
+        <div className="jupyter-mandalab-label">Operating System</div>
+        <select
+          id="jupyter-mandalab-machine-selection"
+          className="jupyter-mandalab-search-input"
+          onChange={e => {
+            setSearchOs(e.target.selectedOptions[0].value);
+            search();
+          }}
+        >
+          <option value="All">All</option>
+          <option value="Windows">Windows</option>
+          <option value="Linux">Linux</option>
+        </select>
         {hasSearched && (
           <div className="jupyter-mandalab-results-label">
-            {searchResult.totalResults !== 0 &&
-              `${searchResult.totalResults} result${
-                searchResult.totalResults > 1 ? "s" : ""
-              } in ${searchResult.totalFiles} file${
-                searchResult.totalFiles > 1 ? "s" : ""
+            {searchResult.totalMachines !== 0 &&
+              `${searchResult.totalMachines} machines${
+                searchResult.totalMachines > 1 ? "s" : ""
               }`}
-            {searchResult.totalResults === 0 && "No results"}
+            {searchResult.totalMachines === 0 && "No machines found"}
           </div>
         )}
       </div>
       <div className="jupyter-mandalab-searchresult-collection">
-        {searchResult.results.map(res => (
+        {searchResult.machines.map(machine => (
           <SearchResult
-            filename={res.filename}
-            results={res.results}
-            openFunc={openFunction(res.filename)}
+            filename={machine.filename}
+            results={machine.results}
+            openFunc={openFunction(machine.filename)}
             query={oldQuery}
           />
         ))}

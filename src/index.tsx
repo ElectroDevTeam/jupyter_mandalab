@@ -46,7 +46,8 @@ const extension: JupyterFrontEndPlugin<void> = {
     const widget = new MainAreaWidget({ content });
     initSearchWidget(content, docManager);
     widget.id = "jupyter_mandalab";
-    widget.title.iconClass = "jp-SideBar-tabIcon jp-SearchIcon";
+    // widget.title.iconClass = "jp-SideBar-tabIcon jp-SearchIcon";
+    widget.title.label = 'Mandalab';
 
     // Add an application commend
     const command: string = "jupyter_mandalab:search";
