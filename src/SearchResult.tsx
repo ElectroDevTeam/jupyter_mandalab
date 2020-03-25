@@ -1,71 +1,101 @@
 import React, { useState } from "react";
-import Hightlighter from "react-highlight-words";
+import {
+  FaWindows,
+  FaLinux,
+  FaRegQuestionCircle,
+  FaLock,
+  FaLockOpen,
+  FaCircle,
+  FaRegCircle
+} from "react-icons/fa";
+
+import ReactTooltip from "react-tooltip";
 
 interface SearchResultProps {
-  filename: string;
-  results: Array<any>;
-  openFunc: Function;
-  query: string;
+  name: string;
+  owner: string;
+  os: string;
+  isLocked: boolean;
+  isPoweredOn: boolean;
 }
 
 const SearchResult: React.SFC<SearchResultProps> = ({
-  filename,
-  results,
-  openFunc,
-  query
+  name,
+  owner,
+  os,
+  isLocked,
+  isPoweredOn
 }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const getOsLogoComponent = () => {
+    if (os.toLowerCase() === "windows") {
+      return <FaWindows />;
+    } else if (os.toLowerCase() === "linux") {
+      return <FaLinux />;
+    } else {
+      return <FaRegQuestionCircle />;
+    }
+  };
+
+  const getLockLogoComponent = () => {
+    if (isLocked) {
+      return <FaLock />;
+    } else {
+      return <FaLockOpen />;
+    }
+  };
+
+  const getPowerLogoComponent = () => {
+    if (isPoweredOn) {
+      return <FaCircle style={{ color: "green" }} />;
+    } else {
+      return <FaRegCircle  style={{ color: "grey" }}/>;
+    }
+  };
+
   return (
-    <div className="jupyter-mandalab-searchresult noselect">
+    <div 
+      className="jupyter-mandalab-searchresult noselect"
+    >
       <div
         style={{
           overflow: "hidden"
         }}
       >
         <div
-          className="jupyter-mandalab-searchresult-filename jupyter-mandalab-highlight-hover"
-          onClick={() => {
-            setIsCollapsed(!isCollapsed);
-          }}
+          className="jupyter-mandalab-searchresult-details jupyter-mandalab-highlight-hover"
+          onClick={() => {}}
+          data-tip={owner}
         >
           <span
-            className={isCollapsed ? "chevron right" : "chevron bottom"}
             style={{
-              margin: "0 0.5em 0 0",
-              display: "inline-block",
-              position: "relative",
-              bottom: "-0.2em"
+              flexBasis: '5%',
+              marginTop: '0.35em',
             }}
-          ></span>
-          {filename.replace(/^.*[\\\/]/, "")}
+          >{getOsLogoComponent()}</span>
+          <span
+            style={{
+              flexBasis: '80%',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
+            }}
+          >{name}</span>
+          <span
+            style={{
+              flexBasis: '5%'
+            }}
+          >{getLockLogoComponent()}</span>
+          <span
+            style={{
+              flexBasis: '5%'
+            }}
+          >{getPowerLogoComponent()}</span>
         </div>
+        <ReactTooltip place="right" type="dark" effect="float" getContent={(data) => data}/>
       </div>
-      {!isCollapsed && (
-        <div className="jupyter-mandalab-searchresult-description noselect">
-          {results.map(res => (
-            <div
-              className="jupyter-mandalab-highlight-hover"
-              onClick={() => {
-                openFunc();
-              }}
-            >
-              <pre style={{ display: "inline", margin: 0 }}>
-                <span className="jupyter-mandalab-lineno">{res.linenumber}</span>
-                <span>
-                  <Hightlighter
-                    highlightClassName="jupyter-mandalab-highlight"
-                    searchWords={[query]}
-                    autoEscape={true}
-                    textToHighlight={res.content}
-                  />
-                </span>
-              </pre>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };
+
 
 export default SearchResult;

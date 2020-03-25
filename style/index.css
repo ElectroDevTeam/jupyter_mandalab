@@ -28,8 +28,12 @@
   overflow-x: hidden;
 }
 
-.jupyter-mandalab-searchresult-filename {
+.jupyter-mandalab-searchresult-details {
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.3em;
 }
 
 .jupyter-mandalab-results-label {

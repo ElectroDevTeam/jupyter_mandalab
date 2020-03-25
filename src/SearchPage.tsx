@@ -15,8 +15,44 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager }) => {
   const [searchOs, setSearchOs] = useState("All");
   const [hasSearched, setHasSearched] = useState(false);
   const [searchResult, setSearchResult] = useState({
-    totalMachines: 0,
-    machines: []
+    totalMachines: 4,
+    machines: [
+      {
+        name: 'My Windows Machine',
+        owner: 'stopel1',
+        os: 'Windows',
+        isLocked: false,
+        isPoweredOn: true,
+      },
+      {
+        name: 'My Linux Machine',
+        owner: 'stopel2',
+        os: 'Linux',
+        isLocked: false,
+        isPoweredOn: false,
+      },
+      {
+        name: 'My Windows Machine2',
+        owner: 'stopel3',
+        os: 'Windows',
+        isLocked: true,
+        isPoweredOn: true,
+      },
+      {
+        name: 'My Other Machine',
+        owner: 'stopel4',
+        os: 'Other',
+        isLocked: true,
+        isPoweredOn: false,
+      },
+      {
+        name: 'Machine with a really looooooooooooooooooooooooooooooooooong name',
+        owner: 'Bnael',
+        os: 'Linux',
+        isLocked: true,
+        isPoweredOn: false,
+      },
+    ]
   });
 
   const openFunction = (filePath: string) => () => {
@@ -80,20 +116,22 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager }) => {
         {hasSearched && (
           <div className="jupyter-mandalab-results-label">
             {searchResult.totalMachines !== 0 &&
-              `${searchResult.totalMachines} machines${
+              `${searchResult.totalMachines} machine${
                 searchResult.totalMachines > 1 ? "s" : ""
-              }`}
+              } found`}
             {searchResult.totalMachines === 0 && "No machines found"}
           </div>
         )}
       </div>
       <div className="jupyter-mandalab-searchresult-collection">
-        {searchResult.machines.map(machine => (
+        {hasSearched && searchResult.machines.map(machine => (
           <SearchResult
-            filename={machine.filename}
-            results={machine.results}
-            openFunc={openFunction(machine.filename)}
-            query={oldQuery}
+            key={`${machine.owner}-${machine.name}-${machine.os}`}
+            name={machine.name}
+            owner={machine.owner}
+            isLocked={machine.isLocked}
+            os={machine.os}
+            isPoweredOn={machine.isPoweredOn}
           />
         ))}
       </div>
