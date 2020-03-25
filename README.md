@@ -1,18 +1,18 @@
-# deepsearch
+# jupyter_mandalab
 
-![Github Actions Status](https://github.com/itaistopel/deepsearch.git/workflows/Build/badge.svg)
+![Github Actions Status](https://github.com/ElectroDevTeam/jupyter_mandalab/workflows/Build/badge.svg)
 
-Search on entire directories, symbols and notebooks
+Mandalab visualization in Jupyter Lab.
 
 
 ## Requirements
 
-* JupyterLab >= 1.0
+* JupyterLab >= 2.0
 
 ## Install
 
 ```bash
-jupyter labextension install deepsearch
+jupyter labextension install jupyter_mandalab
 ```
 
 ## Contributing
@@ -25,7 +25,7 @@ The `jlpm` command is JupyterLab's pinned version of
 
 ```bash
 # Clone the repo to your local environment
-# Move to deepsearch directory
+# Move to jupyter_mandalab directory
 # Install dependencies
 jlpm
 # Build Typescript source
@@ -50,6 +50,6 @@ jupyter lab --watch
 ### Uninstall
 
 ```bash
-jupyter labextension uninstall deepsearch
+jupyter labextension uninstall jupyter_mandalab
 ```
 

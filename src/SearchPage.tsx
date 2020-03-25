@@ -33,21 +33,16 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager }) => {
   const search = () => {
     if (searchQuery !== "") {
       //   Do search stuff
-      axios
-        .get(`/api/deepsearch?query=${searchQuery}&dir=${searchDir}`)
-        .then(result => {
-          setSearchResult(result.data);
-          setOldQuery(searchQuery);
-          setHasSearched(true);
-        });
+      setOldQuery(searchQuery);
+      setHasSearched(true);
     }
   };
 
   return (
-    <div className="deepsearch-widget">
-      <div className="deepsearch-inner-content noselect">
+    <div className="jupyter-mandalab-widget">
+      <div className="jupyter-mandalab-inner-content noselect">
         <input
-          className="deepsearch-search-input"
+          className="jupyter-mandalab-search-input"
           onChange={e => {
             setSearchQuery(e.target.value);
           }}
@@ -58,9 +53,9 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager }) => {
             }
           }}
         />
-        <div className="deepsearch-label">files to include</div>
+        <div className="jupyter-mandalab-label">files to include</div>
         <input
-          className="deepsearch-search-input"
+          className="jupyter-mandalab-search-input"
           onChange={e => {
             setSearchDir(e.target.value);
           }}
@@ -72,7 +67,7 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager }) => {
           }}
         />
         {hasSearched && (
-          <div className="deepsearch-results-label">
+          <div className="jupyter-mandalab-results-label">
             {searchResult.totalResults !== 0 &&
               `${searchResult.totalResults} result${
                 searchResult.totalResults > 1 ? "s" : ""
@@ -83,7 +78,7 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager }) => {
           </div>
         )}
       </div>
-      <div className="deepsearch-searchresult-collection">
+      <div className="jupyter-mandalab-searchresult-collection">
         {searchResult.results.map(res => (
           <SearchResult
             filename={res.filename}

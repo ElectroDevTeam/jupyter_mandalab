@@ -1,15 +1,15 @@
 {
-  "name": "deepsearch",
+  "name": "jupyter_mandalab",
   "version": "0.1.0",
-  "description": "Search on entire directories.",
+  "description": "Mandalab visualization in Jupyter Lab.",
   "keywords": [
     "jupyter",
     "jupyterlab",
     "jupyterlab-extension"
   ],
-  "homepage": "https://github.com/itaistopel/deepsearch.git",
+  "homepage": "https://github.com/ElectroDevTeam/jupyter_mandalab",
   "bugs": {
-    "url": "https://github.com/itaistopel/deepsearch.git/issues"
+    "url": "https://github.com/ElectroDevTeam/jupyter_mandalab/issues"
   },
   "license": "BSD-3-Clause",
   "author": "Stopel",
@@ -22,7 +22,7 @@
   "style": "style/index.css",
   "repository": {
     "type": "git",
-    "url": "https://github.com/itaistopel/deepsearch.git.git"
+    "url": "https://github.com/ElectroDevTeam/jupyter_mandalab.git"
   },
   "scripts": {
     "build": "tsc",

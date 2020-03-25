@@ -16,14 +16,14 @@ const SearchResult: React.SFC<SearchResultProps> = ({
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   return (
-    <div className="deepsearch-searchresult noselect">
+    <div className="jupyter-mandalab-searchresult noselect">
       <div
         style={{
           overflow: "hidden"
         }}
       >
         <div
-          className="deepsearch-searchresult-filename deepsearch-highlight-hover"
+          className="jupyter-mandalab-searchresult-filename jupyter-mandalab-highlight-hover"
           onClick={() => {
             setIsCollapsed(!isCollapsed);
           }}
@@ -41,19 +41,19 @@ const SearchResult: React.SFC<SearchResultProps> = ({
         </div>
       </div>
       {!isCollapsed && (
-        <div className="deepsearch-searchresult-description noselect">
+        <div className="jupyter-mandalab-searchresult-description noselect">
           {results.map(res => (
             <div
-              className="deepsearch-highlight-hover"
+              className="jupyter-mandalab-highlight-hover"
               onClick={() => {
                 openFunc();
               }}
             >
               <pre style={{ display: "inline", margin: 0 }}>
-                <span className="deepsearch-lineno">{res.linenumber}</span>
+                <span className="jupyter-mandalab-lineno">{res.linenumber}</span>
                 <span>
                   <Hightlighter
-                    highlightClassName="deepsearch-highlight"
+                    highlightClassName="jupyter-mandalab-highlight"
                     searchWords={[query]}
                     autoEscape={true}
                     textToHighlight={res.content}
