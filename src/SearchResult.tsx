@@ -17,6 +17,7 @@ interface SearchResultProps {
   os: string;
   isLocked: boolean;
   isPoweredOn: boolean;
+  addMachineFunction: Function;
 }
 
 const SearchResult: React.SFC<SearchResultProps> = ({
@@ -24,7 +25,8 @@ const SearchResult: React.SFC<SearchResultProps> = ({
   owner,
   os,
   isLocked,
-  isPoweredOn
+  isPoweredOn,
+  addMachineFunction
 }) => {
   const getOsLogoComponent = () => {
     if (os.toLowerCase() === "windows") {
@@ -55,6 +57,7 @@ const SearchResult: React.SFC<SearchResultProps> = ({
   return (
     <div 
       className="jupyter-mandalab-searchresult noselect"
+      onDoubleClick={(e) => {addMachineFunction();}}
     >
       <div
         style={{

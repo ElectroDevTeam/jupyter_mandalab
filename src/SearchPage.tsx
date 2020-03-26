@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 import SearchResult from "./SearchResult";
 import axios from "axios";
-import { IDocumentManager } from "@jupyterlab/docmanager";
 import { PathExt } from "@jupyterlab/coreutils";
 
 interface SearchPageProps {
-  docManager: IDocumentManager;
+  docManager: any;
+  app: any;
 }
 
-const SearchPage: React.SFC<SearchPageProps> = ({ docManager }) => {
+const SearchPage: React.SFC<SearchPageProps> = ({ docManager, app }) => {
   const [oldQuery, setOldQuery] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchTeam, setSearchTeam] = useState("/");
   const [searchOs, setSearchOs] = useState("All");
   const [hasSearched, setHasSearched] = useState(false);
   const [searchResult, setSearchResult] = useState({
-    totalMachines: 4,
+    totalMachines: 5,
     machines: [
       {
         name: 'My Windows Machine',
@@ -66,11 +66,38 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager }) => {
     );
   };
 
+  const getCurrentNotebook = () => {
+    const current = app.shell.currentWidget.context;
+    if (current.factoryName == "notebook") {
+      return current.path;
+    }
+    return null;
+  };
+
+  const addGetMachineToCurrentCell = (machineName: string) => {
+    const currentNotebook = getCurrentNotebook();
+    if (currentNotebook) {
+      const cell = docManager.openOrReveal(currentNotebook).content.activeCell;
+      if (cell) {
+        const editor = cell.editor._editor;
+        let oldValue = editor.getValue();
+        let newValue = "";
+        if (oldValue) {
+          newValue = oldValue + "\n";
+        }
+        newValue += `import mint\nmachine = mint.get_mandalab_machine("${machineName}")`;
+        editor.setValue(newValue);
+      }
+    }
+  };
+
+
   const search = () => {
     //   Do search stuff
     setOldQuery(searchQuery);
     setHasSearched(true);
   };
+
 
   return (
     <div className="jupyter-mandalab-widget">
@@ -132,6 +159,7 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager }) => {
             isLocked={machine.isLocked}
             os={machine.os}
             isPoweredOn={machine.isPoweredOn}
+            addMachineFunction={() => {addGetMachineToCurrentCell(machine.name);}}
           />
         ))}
       </div>

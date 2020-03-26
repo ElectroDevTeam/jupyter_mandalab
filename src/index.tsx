@@ -6,29 +6,31 @@ import {
 
 import { ICommandPalette, MainAreaWidget } from "@jupyterlab/apputils";
 
-import {IDocumentManager} from "@jupyterlab/docmanager";
+import { IDocumentManager } from "@jupyterlab/docmanager";
 
 import { Widget } from "@lumino/widgets";
 import React from "react";
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 
-import SearchPage from './SearchPage';
+import SearchPage from "./SearchPage";
 
 declare namespace JSX {
-  interface Element { }
-  interface IntrinsicElements { div: any}
+  interface Element {}
+  interface IntrinsicElements {
+    div: any;
+  }
 }
 
-function initSearchWidget(content: Widget, docManager: IDocumentManager) {
-  let searchHeader = <div
-    style={{
-      height: '100%'
-    }}
-  >
-    <SearchPage
-      docManager={docManager}
-    />
-  </div>;
+function initSearchWidget(content: Widget, docManager: IDocumentManager, app: JupyterFrontEnd) {
+  let searchHeader = (
+    <div
+      style={{
+        height: "100%"
+      }}
+    >
+      <SearchPage docManager={docManager} app={app}/>
+    </div>
+  );
   ReactDOM.render(searchHeader, content.node);
 }
 
@@ -39,15 +41,21 @@ const extension: JupyterFrontEndPlugin<void> = {
   id: "jupyter_mandalab",
   autoStart: true,
   requires: [ICommandPalette, IDocumentManager, ILabShell],
-  activate: (app: JupyterFrontEnd, palette: ICommandPalette, docManager: IDocumentManager, labShell: ILabShell) => {
+  activate: (
+    app: JupyterFrontEnd,
+    palette: ICommandPalette,
+    docManager: IDocumentManager,
+    labShell: ILabShell,
+    
+  ) => {
     console.log("JupyterLab extension jupyter_mandalab is activated!");
     // Create a blank content widget inside of MainAreaWidget
     const content = new Widget();
     const widget = new MainAreaWidget({ content });
-    initSearchWidget(content, docManager);
+    initSearchWidget(content, docManager, app);
     widget.id = "jupyter_mandalab";
     // widget.title.iconClass = "jp-SideBar-tabIcon jp-SearchIcon";
-    widget.title.label = 'Mandalab';
+    widget.title.label = "Mandalab";
 
     // Add an application commend
     const command: string = "jupyter_mandalab:search";
