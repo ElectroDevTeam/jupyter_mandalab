@@ -9,8 +9,6 @@ import {
   FaRegCircle
 } from "react-icons/fa";
 
-import ReactTooltip from "react-tooltip";
-
 interface SearchResultProps {
   name: string;
   owner: string;
@@ -29,6 +27,7 @@ const SearchResult: React.SFC<SearchResultProps> = ({
   addMachineFunction
 }) => {
   const getOsLogoComponent = () => {
+    // TODO: Change to switch case
     if (os.toLowerCase() === "windows") {
       return <FaWindows />;
     } else if (os.toLowerCase() === "linux") {
@@ -66,8 +65,6 @@ const SearchResult: React.SFC<SearchResultProps> = ({
       >
         <div
           className="jupyter-mandalab-searchresult-details jupyter-mandalab-highlight-hover"
-          onClick={() => {}}
-          data-tip={owner}
         >
           <span
             style={{
@@ -77,12 +74,27 @@ const SearchResult: React.SFC<SearchResultProps> = ({
           >{getOsLogoComponent()}</span>
           <span
             style={{
-              flexBasis: '80%',
+              flexBasis: '60%',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis'
             }}
           >{name}</span>
+          <span
+            style={{
+              flexBasis: '20%',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              backgroundColor: '#333333',
+              padding: '0.1em 0.3em',
+              borderRadius: '1em',
+              textAlign: 'center',
+              color: '#c3c3c3'
+            }}
+          >
+            {owner}
+          </span>
           <span
             style={{
               flexBasis: '5%'
@@ -94,7 +106,6 @@ const SearchResult: React.SFC<SearchResultProps> = ({
             }}
           >{getPowerLogoComponent()}</span>
         </div>
-        <ReactTooltip place="right" type="dark" effect="float" getContent={(data) => data}/>
       </div>
     </div>
   );

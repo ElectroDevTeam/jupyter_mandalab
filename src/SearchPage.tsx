@@ -18,40 +18,41 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager, app }) => {
     totalMachines: 5,
     machines: [
       {
-        name: 'My Windows Machine',
-        owner: 'stopel1',
-        os: 'Windows',
+        name: "My Windows Machine",
+        owner: "stopel1",
+        os: "Windows",
         isLocked: false,
-        isPoweredOn: true,
+        isPoweredOn: true
       },
       {
-        name: 'My Linux Machine',
-        owner: 'stopel2',
-        os: 'Linux',
+        name: "My Linux Machine",
+        owner: "stopel2",
+        os: "Linux",
         isLocked: false,
-        isPoweredOn: false,
+        isPoweredOn: false
       },
       {
-        name: 'My Windows Machine2',
-        owner: 'stopel3',
-        os: 'Windows',
+        name: "My Windows Machine2",
+        owner: "stopel3",
+        os: "Windows",
         isLocked: true,
-        isPoweredOn: true,
+        isPoweredOn: true
       },
       {
-        name: 'My Other Machine',
-        owner: 'stopel4',
-        os: 'Other',
+        name: "My Other Machine",
+        owner: "stopel4",
+        os: "Other",
         isLocked: true,
-        isPoweredOn: false,
+        isPoweredOn: false
       },
       {
-        name: 'Machine with a really looooooooooooooooooooooooooooooooooong name',
-        owner: 'Bnael',
-        os: 'Linux',
+        name:
+          "Machine with a really looooooooooooooooooooooooooooooooooong name",
+        owner: "Bnael",
+        os: "Linux",
         isLocked: true,
-        isPoweredOn: false,
-      },
+        isPoweredOn: false
+      }
     ]
   });
 
@@ -91,13 +92,11 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager, app }) => {
     }
   };
 
-
   const search = () => {
     //   Do search stuff
     setOldQuery(searchQuery);
     setHasSearched(true);
   };
-
 
   return (
     <div className="jupyter-mandalab-widget">
@@ -150,18 +149,28 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager, app }) => {
           </div>
         )}
       </div>
+      <div>
+        {hasSearched && searchResult.machines && (
+          <div className="jupyter-mandalab-results-label">
+            Double click on a machine to add it to an opened notebook
+          </div>
+        )}
+      </div>
       <div className="jupyter-mandalab-searchresult-collection">
-        {hasSearched && searchResult.machines.map(machine => (
-          <SearchResult
-            key={`${machine.owner}-${machine.name}-${machine.os}`}
-            name={machine.name}
-            owner={machine.owner}
-            isLocked={machine.isLocked}
-            os={machine.os}
-            isPoweredOn={machine.isPoweredOn}
-            addMachineFunction={() => {addGetMachineToCurrentCell(machine.name);}}
-          />
-        ))}
+        {hasSearched &&
+          searchResult.machines.map(machine => (
+            <SearchResult
+              key={`${machine.owner}-${machine.name}-${machine.os}`}
+              name={machine.name}
+              owner={machine.owner}
+              isLocked={machine.isLocked}
+              os={machine.os}
+              isPoweredOn={machine.isPoweredOn}
+              addMachineFunction={() => {
+                addGetMachineToCurrentCell(machine.name);
+              }}
+            />
+          ))}
       </div>
     </div>
   );
