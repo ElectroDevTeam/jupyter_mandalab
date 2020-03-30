@@ -6,7 +6,8 @@ import {
   FaLock,
   FaLockOpen,
   FaCircle,
-  FaRegCircle
+  FaRegCircle,
+  FaCloud
 } from "react-icons/fa";
 
 interface SearchResultProps {
@@ -16,6 +17,7 @@ interface SearchResultProps {
   isLocked: boolean;
   isPoweredOn: boolean;
   addMachineFunction: Function;
+  addNetworkFunction: Function;
 }
 
 const SearchResult: React.SFC<SearchResultProps> = ({
@@ -24,7 +26,8 @@ const SearchResult: React.SFC<SearchResultProps> = ({
   os,
   isLocked,
   isPoweredOn,
-  addMachineFunction
+  addMachineFunction,
+  addNetworkFunction
 }) => {
   const getOsLogoComponent = () => {
     // TODO: Change to switch case
@@ -35,6 +38,11 @@ const SearchResult: React.SFC<SearchResultProps> = ({
     } else {
       return <FaRegQuestionCircle />;
     }
+  };
+
+
+  const getNetworkComponent = () => {
+      return <FaCloud onClick={() => addNetworkFunction()}/>;
   };
 
   const getLockLogoComponent = () => {
@@ -52,6 +60,10 @@ const SearchResult: React.SFC<SearchResultProps> = ({
       return <FaRegCircle  style={{ color: "grey" }}/>;
     }
   };
+
+  const LIGHT_GREY: string = '#333333';
+
+  const [netwrokBGColor, setNetwrokBGColor] = useState(LIGHT_GREY);
 
   return (
     <div 
@@ -86,7 +98,7 @@ const SearchResult: React.SFC<SearchResultProps> = ({
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
-              backgroundColor: '#333333',
+              backgroundColor: LIGHT_GREY,
               padding: '0.1em 0.3em',
               borderRadius: '1em',
               textAlign: 'center',
@@ -97,14 +109,21 @@ const SearchResult: React.SFC<SearchResultProps> = ({
           </span>
           <span
             style={{
-              flexBasis: '5%'
+              flexBasis: '8%'
             }}
           >{getLockLogoComponent()}</span>
           <span
             style={{
-              flexBasis: '5%'
+              flexBasis: '8%'
             }}
           >{getPowerLogoComponent()}</span>
+          <span
+            style={{
+                backgroundColor: netwrokBGColor,
+                flexBasis: '8%',
+                textAlign: 'center'
+             }}
+             onMouseOver={()=> setNetwrokBGColor('#555555')} onMouseLeave={()=> setNetwrokBGColor(LIGHT_GREY)}>{getNetworkComponent()}</span>
         </div>
       </div>
     </div>

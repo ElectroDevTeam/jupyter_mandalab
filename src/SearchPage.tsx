@@ -75,7 +75,7 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager, app }) => {
     return null;
   };
 
-  const addGetMachineToCurrentCell = (machineName: string) => {
+  const addDataToCurrentCell = (data: string) => {
     const currentNotebook = getCurrentNotebook();
     if (currentNotebook) {
       const cell = docManager.openOrReveal(currentNotebook).content.activeCell;
@@ -86,10 +86,19 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager, app }) => {
         if (oldValue) {
           newValue = oldValue + "\n";
         }
-        newValue += `import mint\nmachine = mint.get_mandalab_machine("${machineName}")`;
+        newValue += data;
         editor.setValue(newValue);
       }
     }
+  };
+
+  const addGetMachineToCurrentCell = (machineName: string) => {
+        addDataToCurrentCell(`import mint\nmachine = mint.get_mandalab_machine("${machineName}")`);
+  };
+
+  const addDisplayNetworkToCurrentCell = (machineName: string) => {
+        addGetMachineToCurrentCell(machineName);
+        addDataToCurrentCell("from mandalab_visual.mandalab_visual import generate_graph\ngenerate_graph(machine)");
   };
 
   const search = () => {
@@ -152,7 +161,7 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager, app }) => {
       <div>
         {hasSearched && searchResult.machines && (
           <div className="jupyter-mandalab-results-label">
-            Double click on a machine to add it to an opened notebook
+            Double click on a machine to add it to an opened notebook. Click on the cloud icon to display the mandalab network.
           </div>
         )}
       </div>
@@ -168,6 +177,9 @@ const SearchPage: React.SFC<SearchPageProps> = ({ docManager, app }) => {
               isPoweredOn={machine.isPoweredOn}
               addMachineFunction={() => {
                 addGetMachineToCurrentCell(machine.name);
+              }}
+              addNetworkFunction={() => {
+                addDisplayNetworkToCurrentCell(machine.name);
               }}
             />
           ))}
