@@ -38,78 +38,81 @@ const SearchResult: React.SFC<SearchResultProps> = ({
   };
 
   const getLockLogoComponent = () => {
-    if (isLocked) {
-      return <FaLock />;
-    } else {
-      return <FaLockOpen />;
-    }
+    return isLocked ? <FaLock /> : <FaLockOpen />;
   };
 
   const getPowerLogoComponent = () => {
     if (isPoweredOn) {
       return <FaCircle style={{ color: "green" }} />;
     } else {
-      return <FaRegCircle  style={{ color: "grey" }}/>;
+      return <FaRegCircle style={{ color: "grey" }} />;
     }
   };
 
   return (
-    <div 
+    <div
       className="jupyter-mandalab-searchresult noselect"
-      onDoubleClick={(e) => {addMachineFunction();}}
+      onDoubleClick={e => {
+        addMachineFunction();
+      }}
     >
       <div
         style={{
           overflow: "hidden"
         }}
       >
-        <div
-          className="jupyter-mandalab-searchresult-details jupyter-mandalab-highlight-hover"
-        >
+        <div className="jupyter-mandalab-searchresult-details jupyter-mandalab-highlight-hover">
           <span
             style={{
-              flexBasis: '5%',
-              marginTop: '0.35em',
+              flexBasis: "5%",
+              marginTop: "0.35em"
             }}
-          >{getOsLogoComponent()}</span>
+          >
+            {getOsLogoComponent()}
+          </span>
           <span
             style={{
-              flexBasis: '60%',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
+              flexBasis: "60%",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis"
             }}
-          >{name}</span>
+          >
+            {name}
+          </span>
           <span
             style={{
-              flexBasis: '20%',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              backgroundColor: '#333333',
-              padding: '0.1em 0.3em',
-              borderRadius: '1em',
-              textAlign: 'center',
-              color: '#c3c3c3'
+              flexBasis: "20%",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              backgroundColor: "#333333",
+              padding: "0.1em 0.3em",
+              borderRadius: "1em",
+              textAlign: "center",
+              color: "#c3c3c3"
             }}
           >
             {owner}
           </span>
           <span
             style={{
-              flexBasis: '5%'
+              flexBasis: "5%"
             }}
-          >{getLockLogoComponent()}</span>
+          >
+            {getLockLogoComponent()}
+          </span>
           <span
             style={{
-              flexBasis: '5%'
+              flexBasis: "5%"
             }}
-          >{getPowerLogoComponent()}</span>
+          >
+            {getPowerLogoComponent()}
+          </span>
         </div>
       </div>
     </div>
   );
 };
-
 
 export default SearchResult;
